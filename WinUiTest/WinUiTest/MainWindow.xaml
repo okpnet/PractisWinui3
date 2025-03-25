@@ -7,8 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <StackPanel Orientation="Vertical">
-        <StackPanel x:Name="RootPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <StackPanel Orientation="Vertical" Width="288">
+        <GridView>
+            
+        </GridView>
+        <StackPanel x:Name="RootPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="160">
             <ProgressRing Loaded="ProgressRing_Loaded" IsActive="{Binding IsBusy}"/>
             <TextBlock Text="名前"></TextBlock>
             <TextBox x:Name="AnimalName" Text="{Binding Name}" IsReadOnly="{Binding IsBusy}"></TextBox>

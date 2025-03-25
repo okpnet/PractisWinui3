@@ -13,6 +13,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using WinUiTest.Presentation.Facades;
 using WinUiTest.Views.Dtos;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,11 +26,11 @@ namespace WinUiTest
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public AnimalEntity Entity { get; set; } = new();
+        public AnimalDoctor Animals { get; set; }
         public MainWindow()
         {
             this.InitializeComponent();
-            RootPanel.DataContext = Entity;
+            RootPanel.DataContext =
         }
 
         private async void myButton_Click(object sender, RoutedEventArgs e)

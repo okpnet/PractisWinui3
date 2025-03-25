@@ -8,17 +8,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Width="200">
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Thumbnail"></TextBlock>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="File nmae"></TextBlock>
-                    <TextBox x:Name="FileName"></TextBox>
-                </StackPanel>
+    <Grid DataContext="Entity" AutomationProperties.Name = '{x:Bind FileName}' Width = '280'>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = 'Auto'/>
+            <ColumnDefinition Width = '*'/>
+        </Grid.ColumnDefinitions>
+        <Image Height = '100' Stretch = 'Fill' VerticalAlignment = 'Top'/>
+        <StackPanel Grid.Column = '1' Margin = '8,0,0,8'>
+            <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource SubtitleTextBlockStyle}' Margin = '0,0,0,8'/>
+            <StackPanel Orientation = 'Horizontal'>
+                <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                <TextBlock Text = 'Views' Style = '{ThemeResource CaptionTextBlockStyle}'/>
             </StackPanel>
-            <ProgressBar IsIndeterminate="True" ShowError="False" ShowPaused="False"></ProgressBar>
+            <StackPanel Orientation = 'Horizontal'>
+                <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                <TextBlock Text = 'Likes' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

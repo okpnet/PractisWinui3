@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using WinUiTest.Views.Dtos;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,6 +21,8 @@ namespace WinUiTest.Views.Controls
 {
     public sealed partial class AnimalTemplate : UserControl
     {
+        public AnimalEntity Entity { get; set; }
+
         public AnimalTemplate()
         {
             this.InitializeComponent();

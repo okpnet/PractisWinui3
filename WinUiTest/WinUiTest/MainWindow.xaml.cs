@@ -6,13 +6,23 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 using WinUiTest.Presentation.Facades;
 using WinUiTest.Views.Dtos;
 
@@ -26,24 +36,51 @@ namespace WinUiTest
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public AnimalDoctor Animals { get; set; }
+        public string OutPutDir { get; set; }
+
+        public MainViewModel MainViewModel { get; }
+
         public MainWindow()
         {
             this.InitializeComponent();
-            RootPanel.DataContext =
+            MainViewModel = new(AnimalPanels.Animals);
         }
 
-        private async void myButton_Click(object sender, RoutedEventArgs e)
+        private async void DirSelect_Click(object sender, RoutedEventArgs e)
         {
-            myButton.Content = "Clicked";
-            var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-            await Entity.Loading();//dispatcherQueue);
-        }
-        private void ProgressRing_Loaded(object sender, RoutedEventArgs e)
-        {
-            var ring = sender as ProgressRing;
-            System.Diagnostics.Debug.WriteLine($"[Loaded] IsActive = {ring.IsActive}");
+            var picker = new FolderPicker();
+            InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+            var folder=await picker.PickSingleFolderAsync();
+            if(folder is  null)
+            {
+                return;
+            }
+            OutPutDir = folder.Name;
         }
 
+        private void MainFrame_DragOver(object sender, DragEventArgs e)
+        {
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                return;
+            }
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+        }
+
+        private async void MainFrame_Drop(object sender, DragEventArgs e)
+        {
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                return;
+            }
+            var items =await e.DataView.GetStorageItemsAsync();
+            MainViewModel.AddAnimalItems(items.Select(t => t.Path));
+        }
+
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await MainViewModel.AllLoad();
+        }
     }
 }

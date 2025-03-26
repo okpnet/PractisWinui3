@@ -26,6 +26,7 @@ namespace WinUiTest.Views.Controls
         {
             this.InitializeComponent();
             ContentGridView.DataContext = this;
+            Animals = new();
         }
     }
 }

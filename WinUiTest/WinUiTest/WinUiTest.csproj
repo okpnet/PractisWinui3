@@ -34,6 +34,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -48,6 +49,7 @@
   <ItemGroup>
     <Folder Include="Presentation\Services\" />
     <Folder Include="Shared\Controls\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Controls\AnimalPanelTemplate.xaml">

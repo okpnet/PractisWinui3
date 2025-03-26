@@ -53,10 +53,11 @@ namespace WinUiTest.Views.Dtos
 
         public async Task Loading()//DispatcherQueue dispatcher)
         {
-            System.Diagnostics.Debug.WriteLine("True");
+            
             IsBusy = true;
             var secRnd = new Random(DateTime.Now.Millisecond);
             var waitsec= secRnd.Next(8)+2;
+            System.Diagnostics.Debug.WriteLine($"True: wait {waitsec}sec");
             await Task.Delay(waitsec*1000);
             Name=Guid.NewGuid().ToString();
             IsBusy = false;

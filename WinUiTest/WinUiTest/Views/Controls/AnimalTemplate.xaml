@@ -7,23 +7,28 @@
     xmlns:local2="using:WinUiTest.Views.Dtos"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-    <Grid DataContext="Entity" AutomationProperties.Name = '{x:Bind FileName}' Width = '280'>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = 'Auto'/>
-            <ColumnDefinition Width = '*'/>
-        </Grid.ColumnDefinitions>
-        <Image Height = '100' Stretch = 'Fill' VerticalAlignment = 'Top'/>
-        <StackPanel Grid.Column = '1' Margin = '8,0,0,8'>
-            <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource SubtitleTextBlockStyle}' Margin = '0,0,0,8'/>
-            <StackPanel Orientation = 'Horizontal'>
-                <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
-                <TextBlock Text = 'Views' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+    mc:Ignorable="d"
+    x:DataType="local2:AnimalEntity">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width = '280'>
+        <TextBlock Text = '{x:Bind Entity.Name ,Mode=OneWay}'/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = 'Auto'/>
+                <ColumnDefinition Width = '*'/>
+            </Grid.ColumnDefinitions>
+            <Image Height = '100' Stretch = 'Fill' VerticalAlignment = 'Top'/>
+            <StackPanel Grid.Column = '1' Margin = '8,0,0,8'>
+                <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource SubtitleTextBlockStyle}' Margin = '0,0,0,8'/>
+                <StackPanel Orientation = 'Horizontal'>
+                    <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                    <TextBlock Text = 'Views' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                </StackPanel>
+                <StackPanel Orientation = 'Horizontal'>
+                    <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                    <TextBlock Text = 'Likes' Style = '{ThemeResource CaptionTextBlockStyle}'/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation = 'Horizontal'>
-                <TextBlock Text = '{x:Bind Name}' Style = '{ThemeResource CaptionTextBlockStyle}'/>
-                <TextBlock Text = 'Likes' Style = '{ThemeResource CaptionTextBlockStyle}'/>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+        </Grid>
+        <ProgressBar IsIndeterminate="{x:Bind Entity.IsBusy,Mode=OneWay}" ShowError="False" ShowPaused="False"></ProgressBar>
+    </StackPanel>
 </UserControl>

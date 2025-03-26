@@ -7,9 +7,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using WinUiTest.Views.Dtos;
@@ -19,13 +21,35 @@ using WinUiTest.Views.Dtos;
 
 namespace WinUiTest.Views.Controls
 {
-    public sealed partial class AnimalTemplate : UserControl
+    public partial class AnimalTemplate : UserControl,INotifyPropertyChanged
     {
-        public AnimalEntity Entity { get; set; }
+        AnimalEntity _entity;
+        public AnimalEntity Entity
+        {
+            get=> _entity;
+            set
+            {
+                if (object.Equals(_entity,value))
+                {
+                    return;
+                }
+                var test = DataContext;
+                _entity = value;
+                OnPropertyChanged(nameof(Entity));
+                System.Diagnostics.Debug.WriteLine($"[UI] Entity = {Entity.Name}");
+            }
+        }
+
 
         public AnimalTemplate()
         {
             this.InitializeComponent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

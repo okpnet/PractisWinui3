@@ -15,6 +15,7 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
+using WinUiTest.Presentation.Extensions;
 using WinUiTest.Presentation.Facades;
 using WinUiTest.Presentation.Services;
 using WinUiTest.Shared.Dtos;
@@ -81,6 +83,7 @@ namespace WinUiTest
             }
             var items =await e.DataView.GetStorageItemsAsync();
             AnimalService.AddAnimalItems(items.Select(t => t.Path));
+            await NotificationWindow.SendSimpleNotificationAsync($"App name", $"drop {items.Count} files.");
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)

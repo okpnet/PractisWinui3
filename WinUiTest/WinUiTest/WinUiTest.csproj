@@ -17,6 +17,7 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Shared\Controls\OverlapModalProgressView.xaml" />
     <None Remove="Views\Controls\AnimalPanelTemplate.xaml" />
     <None Remove="Views\Controls\AnimalTemplate.xaml" />
   </ItemGroup>
@@ -47,9 +48,13 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Presentation\Services\" />
-    <Folder Include="Shared\Controls\" />
     <Folder Include="Themes\" />
+    <Folder Include="新しいフォルダー\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Shared\Controls\OverlapModalProgressView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Controls\AnimalPanelTemplate.xaml">

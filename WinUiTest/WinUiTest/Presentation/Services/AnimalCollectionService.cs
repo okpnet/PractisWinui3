@@ -6,17 +6,22 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using WinUiTest.Presentation.Facades;
+using WinUiTest.Shared.Controls;
+using WinUiTest.Shared.Dtos;
+using WinUiTest.Views.Dtos;
 
-namespace WinUiTest.Views.Dtos
+namespace WinUiTest.Presentation.Services
 {
-    public class MainViewModel:IDisposable,INotifyPropertyChanged
+    public class AnimalCollectionService:IDisposable,INotifyPropertyChanged
     {
         CompositeDisposable _compositeDisposable = new();
         bool _isBusy = false;
         bool _isAnimals = false;
+        uint _completed;
 
         public string OutPutDir { get; set; }
 
@@ -34,6 +39,7 @@ namespace WinUiTest.Views.Dtos
                 System.Diagnostics.Debug.WriteLine($"[UI] IsAnimals = {IsAnimals}");
             }
         }
+
 
         public bool IsBusy 
         {
@@ -53,8 +59,7 @@ namespace WinUiTest.Views.Dtos
         public AnimalDoctor AnimalsDoctor { get; }
 
 
-
-        public MainViewModel(AnimalDoctor animalEntities)
+        public AnimalCollectionService(AnimalDoctor animalEntities)
         {
             AnimalsDoctor = animalEntities;
             _compositeDisposable.Add(
@@ -80,11 +85,23 @@ namespace WinUiTest.Views.Dtos
             }
         }
 
-        public async Task AllLoad()
+        public async Task AllLoad(IProgressModalOption option)
         {
+            System.Diagnostics.Debug.WriteLine($"[UI] {nameof(AnimalCollectionService)}.{nameof(IProgressModalOption)} = {option.GetHashCode()}");
             IsBusy = true;
-            var tasks = AnimalsDoctor.Select(t => t.Loading()).ToList();
+            option.IsEnabled = true;
+            var numberOfTasks = AnimalsDoctor.Count;
+            var numberOfComprete = 0;
+            var tasks = AnimalsDoctor.Select(async t =>
+            {
+                await t.Loading();
+                var done = Interlocked.Increment(ref numberOfComprete);
+                var percent = numberOfComprete == 0 ? 0 : done * 100 / numberOfTasks;
+                option.Progress.Report((uint)percent);
+            }).ToList();
             await Task.WhenAll(tasks);
+            await Task.Delay(1000);
+            option.IsEnabled = false;
             IsBusy = false;
         }
 

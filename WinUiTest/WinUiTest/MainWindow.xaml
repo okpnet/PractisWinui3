@@ -5,11 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WinUiTest"
     xmlns:local2="using:WinUiTest.Views.Controls"
+    xmlns:local3="using:WinUiTest.Shared.Controls"
+    xmlns:local4="using:WinUiTest.Presentation.Services"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:DataType="local:MainViewModel">
+    x:DataType="local4:AnimalCollectionService">
     <Grid Background="Transparent" AllowDrop="True" DragOver="MainFrame_DragOver" Drop="MainFrame_Drop">
+        <local3:OverlapModalProgressView ModalOption="{x:Bind ProgressModalOption}"></local3:OverlapModalProgressView>
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" x:Name="MainFrame">
             <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
                 <AppBarButton Label="開く">
@@ -22,14 +25,14 @@
                         <FontIcon Glyph="&#xF89A;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="保存" IsEnabled="{x:Bind MainViewModel.IsAnimals}" Click="AppBarButton_Click">
+                <AppBarButton Label="保存" IsEnabled="{x:Bind AnimalService.IsAnimals,Mode=OneWay}" Click="AppBarButton_Click">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE73E;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </StackPanel>
             <Grid>
-                <local2:AnimalPanelTemplate x:Name="AnimalPanels"></local2:AnimalPanelTemplate>
+                <local2:AnimalPanelTemplate  x:Name="AnimalPanels"></local2:AnimalPanelTemplate>
             </Grid>
         </StackPanel>
     </Grid>

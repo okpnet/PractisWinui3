@@ -24,6 +24,8 @@ using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 using WinUiTest.Presentation.Facades;
+using WinUiTest.Presentation.Services;
+using WinUiTest.Shared.Dtos;
 using WinUiTest.Views.Dtos;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -38,12 +40,15 @@ namespace WinUiTest
     {
         public string OutPutDir { get; set; }
 
-        public MainViewModel MainViewModel { get; }
+        public AnimalCollectionService AnimalService { get; }
+
+        public ProgressModalOption ProgressModalOption { get; set; }
 
         public MainWindow()
         {
             this.InitializeComponent();
-            MainViewModel = new(AnimalPanels.Animals);
+            AnimalService = new(AnimalPanels.Animals);
+            ProgressModalOption = new (new());
         }
 
         private async void DirSelect_Click(object sender, RoutedEventArgs e)
@@ -75,12 +80,12 @@ namespace WinUiTest
                 return;
             }
             var items =await e.DataView.GetStorageItemsAsync();
-            MainViewModel.AddAnimalItems(items.Select(t => t.Path));
+            AnimalService.AddAnimalItems(items.Select(t => t.Path));
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await MainViewModel.AllLoad();
+            await AnimalService.AllLoad(ProgressModalOption);
         }
     }
 }

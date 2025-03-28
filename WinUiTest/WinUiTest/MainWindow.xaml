@@ -35,5 +35,6 @@
                 <local2:AnimalPanelTemplate  x:Name="AnimalPanels"></local2:AnimalPanelTemplate>
             </Grid>
         </StackPanel>
+        <local3:Toast Notifications="{x:Bind ToastItems,Mode=OneWay}" x:Name="ToastView"></local3:Toast>
     </Grid>
 </Window>

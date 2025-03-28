@@ -24,7 +24,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using WinUiTest.Presentation.Extensions;
 using WinUiTest.Presentation.Facades;
 using WinUiTest.Presentation.Services;
 using WinUiTest.Shared.Dtos;
@@ -46,11 +45,14 @@ namespace WinUiTest
 
         public ProgressModalOption ProgressModalOption { get; set; }
 
+        public ToastItemCollction ToastItems { get; set; }
+
         public MainWindow()
         {
             this.InitializeComponent();
             AnimalService = new(AnimalPanels.Animals);
             ProgressModalOption = new (new());
+            ToastItems = new();
         }
 
         private async void DirSelect_Click(object sender, RoutedEventArgs e)
@@ -83,7 +85,7 @@ namespace WinUiTest
             }
             var items =await e.DataView.GetStorageItemsAsync();
             AnimalService.AddAnimalItems(items.Select(t => t.Path));
-            await NotificationWindow.SendSimpleNotificationAsync($"App name", $"drop {items.Count} files.");
+            ToastItems.Add(new ToastItem(InfoBarSeverity.Success, $"drop {items.Count} files"));
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -6,6 +8,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.VisualBasic.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +30,8 @@ namespace WinUiTest
     /// </summary>
     public partial class App : Application
     {
+        public static IServiceProvider Services { get; private set; }
+        private IHost _host;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -33,8 +39,32 @@ namespace WinUiTest
         public App()
         {
             this.InitializeComponent();
+
+            //ログサービス
+            Log.Logger = new LoggerConfiguration().
+                    Enrich.FromLogContext().
+#if DEBUG
+                    WriteTo.Debug().
+                    MinimumLevel.Verbose().
+#else
+                                            MinimumLevel.Information().
+                                            WriteTo.SQLite(System.IO.Path.Combine(appDataPath, NobitClientLib.Def.LOG_DB)).
+#endif
+                    CreateLogger();
+
+            _host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    ConfigureServices(services);
+                })
+                .Build();
+
+            Services = _host.Services;
         }
 
+        private void ConfigureServices(IServiceCollection services)
+        {
+        }
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>

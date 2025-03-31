@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,6 +17,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -53,6 +55,7 @@ namespace WinUiTest
             AnimalService = new(AnimalPanels.Animals);
             ProgressModalOption = new (new());
             ToastItems = new();
+
         }
 
         private async void DirSelect_Click(object sender, RoutedEventArgs e)

@@ -40,18 +40,6 @@ namespace WinUiTest
         {
             this.InitializeComponent();
 
-            //ログサービス
-            Log.Logger = new LoggerConfiguration().
-                    Enrich.FromLogContext().
-#if DEBUG
-                    WriteTo.Debug().
-                    MinimumLevel.Verbose().
-#else
-                                            MinimumLevel.Information().
-                                            WriteTo.SQLite(System.IO.Path.Combine(appDataPath, NobitClientLib.Def.LOG_DB)).
-#endif
-                    CreateLogger();
-
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
